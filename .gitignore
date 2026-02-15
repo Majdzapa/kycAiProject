@@ -1,1 +1,4 @@
 /kyc-service/target/
+/kyc-frontend/node_modules/
+/kyc-frontend/.angular/
+/kyc-frontend/dist/
