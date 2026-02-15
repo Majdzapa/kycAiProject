@@ -1,0 +1,96 @@
+<div class="admin-container">
+    <h1>Admin Dashboard</h1>
+
+    <mat-tab-group>
+        <mat-tab label="Overview">
+            <div class="stats-grid">
+                <mat-card class="stat-card">
+                    <mat-icon>people</mat-icon>
+                    <h2>1,234</h2>
+                    <p>Total Users</p>
+                </mat-card>
+                <mat-card class="stat-card">
+                    <mat-icon>pending_actions</mat-icon>
+                    <h2>56</h2>
+                    <p>Pending KYC</p>
+                </mat-card>
+                <mat-card class="stat-card">
+                    <mat-icon>verified</mat-icon>
+                    <h2>892</h2>
+                    <p>Verified Users</p>
+                </mat-card>
+                <mat-card class="stat-card">
+                    <mat-icon>warning</mat-icon>
+                    <h2>12</h2>
+                    <p>High Risk</p>
+                </mat-card>
+            </div>
+        </mat-tab>
+
+        <mat-tab label="Documents">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Pending Review</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>Document review interface coming soon...</p>
+                </mat-card-content>
+            </mat-card>
+        </mat-tab>
+
+        <mat-tab label="Audit Log">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Recent Activity</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>Audit log interface coming soon...</p>
+                </mat-card-content>
+            </mat-card>
+        </mat-tab>
+
+        <mat-tab label="Risk Management">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Advanced Risk Scoring</mat-card-title>
+                    <mat-card-subtitle>Manage risk factors and monitor transaction behavior</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="risk-actions">
+                        <div class="action-item">
+                            <h3>Product Risks</h3>
+                            <p>Configure risk levels for banking products (Savings, Crypto, etc.)</p>
+                            <button mat-stroked-button color="primary" routerLink="/admin/products">
+                                <mat-icon>inventory_2</mat-icon> Manage Products
+                            </button>
+                        </div>
+                        <div class="action-item">
+                            <h3>Transaction Monitoring</h3>
+                            <p>View customer transaction history and simulate scenarios</p>
+                            <button mat-stroked-button color="accent" routerLink="/admin/transactions">
+                                <mat-icon>receipt_long</mat-icon> Monitor Transactions
+                            </button>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </mat-tab>
+
+        <mat-tab label="Knowledge Base">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Regulatory Knowledge Base</mat-card-title>
+                    <mat-card-subtitle>Manage compliance documents and AI context</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>Upload new regulations, procedures, or guidelines to update the AI's knowledge.</p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button color="primary" routerLink="/admin/knowledge-base-upload">
+                        <mat-icon>cloud_upload</mat-icon> Upload New Document
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-tab>
+    </mat-tab-group>
+</div>

@@ -1,0 +1,25 @@
+.gdpr-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1 {
+    margin-bottom: 24px;
+}
+
+.rights-card {
+    margin-bottom: 24px;
+}
+
+mat-list-item {
+    height: auto !important;
+    padding: 16px 0;
+}
+
+mat-list-item button {
+    margin-top: 8px;
+}
+
+.info-card p {
+    margin: 8px 0;
+}

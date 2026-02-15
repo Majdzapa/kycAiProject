@@ -1,0 +1,90 @@
+.transaction-container {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    margin-bottom: 24px;
+    color: #333;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.left-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+mat-card {
+    width: 100%;
+}
+
+.search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.half-width {
+    width: 50%;
+}
+
+table {
+    width: 100%;
+}
+
+.type-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.type-badge.deposit {
+    background-color: #e3f2fd;
+    color: #1565c0;
+}
+
+.type-badge.withdrawal {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.type-badge.transfer {
+    background-color: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.type-badge.crypto_purchase {
+    background-color: #fff3e0;
+    color: #ef6c00;
+}
+
+.type-badge.crypto_sale {
+    background-color: #fff8e1;
+    color: #fbc02d;
+}
+
+.empty-state {
+    padding: 24px;
+    text-align: center;
+    color: #757575;
+    font-style: italic;
+}

@@ -1,0 +1,177 @@
+.submit-container {
+  max-width: 800px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .submit-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+form {
+  margin-top: 24px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.upload-section {
+  margin-bottom: 24px;
+}
+
+.upload-zone {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upload-zone:hover,
+.upload-zone.dragover {
+  border-color: #1976d2;
+  background: #f5f5f5;
+}
+
+.upload-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #999;
+  margin-bottom: 16px;
+}
+
+.upload-text {
+  color: #666;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.upload-hint {
+  color: #999;
+  font-size: 12px;
+}
+
+.consent-section {
+  margin-bottom: 24px;
+}
+
+.consent-section a {
+  color: #1976d2;
+}
+
+.submit-button {
+  height: 48px;
+}
+
+.submit-button mat-icon {
+  margin-right: 8px;
+}
+
+.error-message {
+  color: #f44336;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.security-note {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #e8f5e9;
+  border-radius: 4px;
+  margin: 16px;
+}
+
+.security-note mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  color: #666;
+}
+
+.security-note span {
+  font-size: 12px;
+  color: #666;
+}
+
+.result-section {
+  margin-bottom: 24px;
+}
+
+.rejection-card {
+  border: 1px solid #f44336;
+  background: #fff8f8;
+}
+
+.rejection-card .error-text {
+  color: #d32f2f;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.findings-list {
+  margin-top: 16px;
+  padding: 12px;
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid #ffebee;
+}
+
+.findings-list ul {
+  margin: 8px 0 0 0;
+  padding-left: 20px;
+}
+
+.findings-list li {
+  color: #d32f2f;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.retry-hint {
+  margin-top: 16px;
+  font-style: italic;
+  color: #666;
+  font-size: 13px;
+}
+
+.retry-button {
+  margin-top: 12px;
+}
+
+.guidelines-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.guidelines-card li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.guidelines-card li mat-icon {
+  color: #4caf50;
+}
+
+.guidelines-card li span {
+  font-size: 14px;
+}

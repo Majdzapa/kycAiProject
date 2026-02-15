@@ -1,0 +1,75 @@
+<div class="gdpr-container">
+    <h1>Privacy & GDPR Rights</h1>
+
+    <mat-card class="rights-card">
+        <mat-card-header>
+            <mat-icon mat-card-avatar>privacy_tip</mat-icon>
+            <mat-card-title>Your Data Rights</mat-card-title>
+            <mat-card-subtitle>Under the General Data Protection Regulation (GDPR)</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <mat-list>
+                <mat-list-item>
+                    <mat-icon matListItemIcon>download</mat-icon>
+                    <div matListItemTitle>Right to Access & Portability</div>
+                    <div matListItemLine>Download all your personal data in JSON or XML format</div>
+                    <button mat-stroked-button color="primary" (click)="exportData()">
+                        <mat-icon>download</mat-icon>
+                        Export My Data
+                    </button>
+                </mat-list-item>
+
+                <mat-divider></mat-divider>
+
+                <mat-list-item>
+                    <mat-icon matListItemIcon>delete</mat-icon>
+                    <div matListItemTitle>Right to Erasure</div>
+                    <div matListItemLine>Request deletion of your personal data</div>
+                    <button mat-stroked-button color="warn" (click)="deleteData()">
+                        <mat-icon>delete</mat-icon>
+                        Delete My Data
+                    </button>
+                </mat-list-item>
+
+                <mat-divider></mat-divider>
+
+                <mat-list-item>
+                    <mat-icon matListItemIcon>edit</mat-icon>
+                    <div matListItemTitle>Right to Rectification</div>
+                    <div matListItemLine>Update or correct your personal information</div>
+                    <button mat-stroked-button color="primary">
+                        <mat-icon>edit</mat-icon>
+                        Update Profile
+                    </button>
+                </mat-list-item>
+
+                <mat-divider></mat-divider>
+
+                <mat-list-item>
+                    <mat-icon matListItemIcon>block</mat-icon>
+                    <div matListItemTitle>Right to Object</div>
+                    <div matListItemLine>Opt-out of non-essential data processing</div>
+                    <button mat-stroked-button (click)="withdrawConsent()">
+                        <mat-icon>block</mat-icon>
+                        Manage Consent
+                    </button>
+                </mat-list-item>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="info-card">
+        <mat-card-header>
+            <mat-icon mat-card-avatar>info</mat-icon>
+            <mat-card-title>Data Processing Information</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p><strong>Data Controller:</strong> KYC AI Service</p>
+            <p><strong>Legal Basis:</strong> Legal obligation (AML/KYC regulations)</p>
+            <p><strong>Retention Period:</strong> 90 days after verification</p>
+            <p><strong>Security:</strong> AES-256 encryption at rest and in transit</p>
+            <p><strong>Data Protection Officer:</strong> dpo&#64;kyc-ai.example.com</p>
+        </mat-card-content>
+    </mat-card>
+</div>

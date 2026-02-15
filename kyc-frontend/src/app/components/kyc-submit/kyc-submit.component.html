@@ -1,0 +1,139 @@
+<div class="submit-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>upload_file</mat-icon>
+        Submit KYC Documents
+      </mat-card-title>
+      <mat-card-subtitle>Upload your identity documents for verification</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="submitForm" (ngSubmit)="onSubmit()">
+        <!-- Document Type -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Document Type</mat-label>
+          <mat-select formControlName="docType">
+            <mat-option *ngFor="let type of documentTypes" [value]="type.value">
+              <mat-icon>{{ type.icon }}</mat-icon>
+              {{ type.label }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="submitForm.get('docType')?.hasError('required')">
+            Please select a document type
+          </mat-error>
+        </mat-form-field>
+
+        <!-- File Upload -->
+        <div class="upload-section">
+          <div class="upload-zone" [class.dragover]="isDragging" (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)" (drop)="onDrop($event)" (click)="fileInput.click()">
+            <input #fileInput type="file" hidden (change)="onFileSelected($event)" accept=".jpg,.jpeg,.png,.pdf">
+            <mat-icon class="upload-icon">cloud_upload</mat-icon>
+            <p class="upload-text">
+              {{ selectedFile ? selectedFile.name : 'Drag and drop or click to upload' }}
+            </p>
+            <p class="upload-hint">Supported formats: JPG, PNG, PDF (max 10MB)</p>
+          </div>
+          <mat-error *ngIf="submitForm.get('file')?.hasError('required') && submitForm.get('file')?.touched">
+            Please select a file
+          </mat-error>
+        </div>
+
+        <!-- Consent Checkbox -->
+        <div class="consent-section">
+          <mat-checkbox formControlName="consent" color="primary">
+            I consent to the processing of my personal data for KYC verification purposes
+            in accordance with the <a href="/privacy" target="_blank">Privacy Policy</a>.
+          </mat-checkbox>
+          <mat-error *ngIf="submitForm.get('consent')?.hasError('required') && submitForm.get('consent')?.touched">
+            You must provide consent to proceed
+          </mat-error>
+        </div>
+
+        <!-- Rejection Findings & Retry -->
+        <div class="result-section" *ngIf="kycState.currentKycStatus() as status">
+          <mat-card class="rejection-card" *ngIf="status.documentStatus === 'REJECTED'">
+            <mat-card-header>
+              <mat-card-title class="error-text">
+                <mat-icon color="warn">error</mat-icon>
+                Document Rejected
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>The document analysis failed with a confidence of {{ status.confidenceScore | percent }}.</p>
+              <div class="findings-list" *ngIf="status.findings && status.findings.length > 0">
+                <p><strong>Detailed Findings:</strong></p>
+                <ul>
+                  <li *ngFor="let finding of status.findings">{{ finding }}</li>
+                </ul>
+              </div>
+              <p class="retry-hint">Please ensure the document is clearly readable, well-lit, and in a supported format,
+                then try again.</p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-flat-button color="warn" type="button" (click)="retry()">
+                <mat-icon>refresh</mat-icon>
+                Retry Submission
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-message" *ngIf="kycState.error() as error">
+          {{ error }}
+        </div>
+
+        <!-- Submit Button -->
+        <button mat-raised-button color="primary" type="submit" class="full-width submit-button"
+          [disabled]="submitForm.invalid || kycState.submitting()">
+          <mat-spinner diameter="20" *ngIf="kycState.submitting()"></mat-spinner>
+          <span *ngIf="!kycState.submitting()">
+            <mat-icon>send</mat-icon>
+            Submit Document
+          </span>
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-footer>
+      <div class="security-note">
+        <mat-icon>security</mat-icon>
+        <span>Your documents are encrypted and stored securely.
+          They will be automatically deleted after 90 days.</span>
+      </div>
+    </mat-card-footer>
+  </mat-card>
+
+  <!-- Document Guidelines -->
+  <mat-card class="guidelines-card">
+    <mat-card-header>
+      <mat-card-title>Document Guidelines</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ul>
+        <li>
+          <mat-icon>check_circle</mat-icon>
+          <span>Ensure the document is valid and not expired</span>
+        </li>
+        <li>
+          <mat-icon>check_circle</mat-icon>
+          <span>All corners of the document must be visible</span>
+        </li>
+        <li>
+          <mat-icon>check_circle</mat-icon>
+          <span>Text must be clearly readable</span>
+        </li>
+        <li>
+          <mat-icon>check_circle</mat-icon>
+          <span>No glare or shadows on the document</span>
+        </li>
+        <li>
+          <mat-icon>check_circle</mat-icon>
+          <span>Only submit documents belonging to you</span>
+        </li>
+      </ul>
+    </mat-card-content>
+  </mat-card>
+</div>

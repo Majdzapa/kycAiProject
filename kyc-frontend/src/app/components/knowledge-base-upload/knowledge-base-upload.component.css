@@ -1,0 +1,67 @@
+.upload-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+mat-card {
+    margin-bottom: 24px;
+}
+
+mat-card-header {
+    margin-bottom: 16px;
+}
+
+.form-field {
+    margin-bottom: 16px;
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.half-width {
+    width: 50%;
+}
+
+.file-upload-area {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px;
+    border: 2px dashed #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 24px;
+    background-color: #fafafa;
+    transition: background-color 0.2s;
+}
+
+.file-upload-area:hover {
+    background-color: #f0f0f0;
+}
+
+.file-name {
+    font-size: 14px;
+    color: #333;
+}
+
+.file-name.placeholder {
+    color: #999;
+    font-style: italic;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+}
+
+mat-progress-bar {
+    margin-bottom: 16px;
+}

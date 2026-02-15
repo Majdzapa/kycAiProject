@@ -1,0 +1,30 @@
+# Docker-specific configuration
+spring:
+  application:
+    name: kyc-ai-service
+  
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/kyc_db}
+    username: ${SPRING_DATASOURCE_USERNAME:kyc_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:secure_password}
+  
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+# Logging for Docker environment
+logging:
+  level:
+    com.kyc.ai: INFO
+    dev.langchain4j: WARN
+    org.springframework.security: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# CORS configuration note:
+# CORS is already configured in SecurityConfig.java
+# The allowed origins include http://localhost:4200 for development
+# For Docker, the frontend is accessible at http://localhost:4200 (mapped from container port 80)
+# Internal container-to-container communication uses the service name

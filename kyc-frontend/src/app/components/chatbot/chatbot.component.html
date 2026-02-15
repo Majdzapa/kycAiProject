@@ -1,0 +1,60 @@
+<div class="chatbot-container">
+    <mat-card class="chat-card">
+        <mat-card-header>
+            <mat-icon mat-card-avatar>smart_toy</mat-icon>
+            <mat-card-title>KYC Support Assistant</mat-card-title>
+            <mat-card-subtitle>Ask me anything about KYC verification</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="chat-messages" #messageContainer>
+                <div *ngFor="let message of messages" class="message" [class.user]="message.role === 'user'"
+                    [class.assistant]="message.role === 'assistant'">
+                    <div class="message-content">
+                        {{ message.content }}
+                    </div>
+                    <div class="message-time" *ngIf="message.timestamp">
+                        {{ message.timestamp | date:'shortTime' }}
+                    </div>
+
+                    <!-- Suggested Actions -->
+                    <div class="suggested-actions" *ngIf="message.suggestedActions && message.role === 'assistant'">
+                        <mat-chip *ngFor="let action of message.suggestedActions" (click)="sendMessage(action)"
+                            class="action-chip">
+                            {{ action }}
+                        </mat-chip>
+                    </div>
+
+                    <!-- Escalation Warning -->
+                    <div class="escalation-warning" *ngIf="message.escalationNeeded">
+                        <mat-icon>support_agent</mat-icon>
+                        <span>This conversation will be escalated to a human agent.</span>
+                    </div>
+                </div>
+
+                <div class="typing-indicator" *ngIf="isTyping">
+                    <mat-spinner diameter="20"></mat-spinner>
+                    <span>Assistant is typing...</span>
+                </div>
+            </div>
+        </mat-card-content>
+
+        <mat-card-actions class="chat-input-container">
+            <mat-form-field appearance="outline" class="message-input">
+                <input matInput [(ngModel)]="currentMessage" placeholder="Type your message..."
+                    (keyup.enter)="sendMessage()" [disabled]="isTyping">
+            </mat-form-field>
+            <button mat-fab color="primary" (click)="sendMessage()" [disabled]="!currentMessage.trim() || isTyping">
+                <mat-icon>send</mat-icon>
+            </button>
+        </mat-card-actions>
+
+        <mat-card-footer>
+            <div class="chat-disclaimer">
+                <mat-icon>info</mat-icon>
+                <span>This conversation may be monitored for quality assurance.
+                    For data deletion requests, please contact our DPO.</span>
+            </div>
+        </mat-card-footer>
+    </mat-card>
+</div>

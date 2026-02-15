@@ -1,0 +1,61 @@
+<div class="upload-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Upload Regulatory Document</mat-card-title>
+            <mat-card-subtitle>Ingest new knowledge into the AI system</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+
+                <div class="form-field">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Document Title</mat-label>
+                        <input matInput formControlName="title" placeholder="e.g. New AML Regulation 2026">
+                        <mat-error *ngIf="uploadForm.get('title')?.hasError('required')">
+                            Title is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="half-width">
+                        <mat-label>Category</mat-label>
+                        <mat-select formControlName="category">
+                            <mat-option *ngFor="let cat of categories" [value]="cat.value">
+                                {{ cat.label }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="half-width">
+                        <mat-label>Version</mat-label>
+                        <input matInput formControlName="version" placeholder="e.g. v1.0">
+                        <mat-error *ngIf="uploadForm.get('version')?.hasError('required')">
+                            Version is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="file-upload-area">
+                    <input type="file" (change)="onFileSelected($event)" accept=".pdf,.txt" #fileInput hidden>
+                    <button type="button" mat-stroked-button color="primary" (click)="fileInput.click()">
+                        <mat-icon>cloud_upload</mat-icon> Select File
+                    </button>
+                    <span class="file-name" *ngIf="selectedFile">{{ selectedFile.name }}</span>
+                    <span class="file-name placeholder" *ngIf="!selectedFile">No file selected (PDF, TXT)</span>
+                </div>
+
+                <mat-progress-bar *ngIf="isUploading()" mode="indeterminate"></mat-progress-bar>
+
+                <div class="actions">
+                    <button mat-raised-button color="primary" type="submit"
+                        [disabled]="!uploadForm.valid || !selectedFile || isUploading()">
+                        {{ isUploading() ? 'Uploading...' : 'Ingest Document' }}
+                    </button>
+                </div>
+
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

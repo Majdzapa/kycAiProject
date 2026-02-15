@@ -1,0 +1,111 @@
+<div class="dashboard-container">
+    <h1>Welcome, {{ authState.currentUser()?.firstName || authState.currentUser()?.username }}</h1>
+
+    <!-- KYC Status Card -->
+    <mat-card class="status-card">
+        <mat-card-header>
+            <mat-icon mat-card-avatar>fact_check</mat-icon>
+            <mat-card-title>KYC Verification Status</mat-card-title>
+            <mat-card-subtitle>Your identity verification progress</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div *ngIf="kycState.currentKycStatus() as status; else loadingStatus">
+                <div class="status-overview">
+                    <div class="status-item">
+                        <span class="status-label">Document Status</span>
+                        <mat-chip [class]="'status-' + status.documentStatus.toLowerCase()">
+                            {{ status.documentStatus }}
+                        </mat-chip>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Risk Level</span>
+                        <div class="risk-indicator">
+                            <span class="risk-dot" [class]="getRiskLevel(status.riskLevel)"></span>
+                            {{ status.riskLevel }}
+                        </div>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Confidence</span>
+                        <span [class]="getConfidenceClass(status.confidenceScore)">{{ (status.confidenceScore || 0) |
+                            percent:'1.0-1' }}</span>
+                    </div>
+                </div>
+
+                <mat-divider class="my-20"></mat-divider>
+
+                <div class="document-status" *ngIf="status.findings && status.findings.length > 0">
+                    <h3>Analysis Findings</h3>
+                    <ul class="findings-list-summary">
+                        <li *ngFor="let finding of status.findings.slice(0, 2)">
+                            <mat-icon>info</mat-icon>
+                            <span>{{ finding }}</span>
+                        </li>
+                        <li *ngIf="status.findings.length > 2" class="more-findings">
+                            + {{ status.findings.length - 2 }} more findings...
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <ng-template #loadingStatus>
+                <mat-progress-bar mode="indeterminate" *ngIf="kycState.loading()"></mat-progress-bar>
+                <p *ngIf="!kycState.loading()">No KYC submission found. Submit your documents to get started.</p>
+            </ng-template>
+        </mat-card-content>
+
+        <mat-card-actions>
+            <button mat-raised-button color="primary" routerLink="/kyc-submit">
+                <mat-icon>upload_file</mat-icon>
+                Submit Documents
+            </button>
+            <button mat-button routerLink="/kyc-status">
+                <mat-icon>visibility</mat-icon>
+                View Details
+            </button>
+        </mat-card-actions>
+    </mat-card>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <h2>Quick Actions</h2>
+        <div class="action-grid">
+            <mat-card class="action-card" routerLink="/kyc-submit">
+                <mat-icon>cloud_upload</mat-icon>
+                <h3>Upload Documents</h3>
+                <p>Submit ID, passport, or proof of address</p>
+            </mat-card>
+
+            <mat-card class="action-card" routerLink="/chatbot">
+                <mat-icon>chat</mat-icon>
+                <h3>Get Support</h3>
+                <p>Chat with our AI assistant</p>
+            </mat-card>
+
+            <mat-card class="action-card" routerLink="/gdpr">
+                <mat-icon>privacy_tip</mat-icon>
+                <h3>Privacy Settings</h3>
+                <p>Manage your data and GDPR rights</p>
+            </mat-card>
+        </div>
+    </div>
+
+    <!-- Recent Documents -->
+    <div class="recent-documents" *ngIf="kycState.submissions().length > 0">
+        <h2>Recent Submissions</h2>
+        <div class="document-list">
+            <mat-card *ngFor="let submission of kycState.submissions().slice(0, 3)" class="document-item">
+                <div class="doc-info">
+                    <mat-icon>description</mat-icon>
+                    <div>
+                        <span class="doc-type">Submission #{{ submission.id?.substring(0, 8) }}</span>
+                        <span class="doc-date">{{ submission.createdAt | date }}</span>
+                    </div>
+                </div>
+                <mat-chip [class]="'status-' + (submission.verificationStatus || 'pending').toLowerCase()">
+                    {{ submission.verificationStatus }}
+                </mat-chip>
+            </mat-card>
+        </div>
+    </div>
+</div>

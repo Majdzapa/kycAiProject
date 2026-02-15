@@ -1,0 +1,68 @@
+.product-container {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    margin-bottom: 24px;
+    color: #333;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.full-width {
+    width: 100%;
+}
+
+mat-card {
+    margin-bottom: 24px;
+}
+
+mat-card-title {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+table {
+    width: 100%;
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.badge.low {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.badge.medium {
+    background-color: #fff3e0;
+    color: #ef6c00;
+}
+
+.badge.high {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.badge.critical {
+    background-color: #3e2723;
+    color: #d7ccc8;
+    border: 1px solid #d7ccc8;
+}
+
+button[type="submit"] {
+    width: 100%;
+    margin-top: 16px;
+}

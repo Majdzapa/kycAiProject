@@ -1,0 +1,117 @@
+<div class="status-container">
+    <h1>KYC Verification Status</h1>
+
+    <div class="overview-section" *ngIf="kycState.currentKycStatus() as status; else noStatus">
+        <mat-card class="status-overview">
+            <mat-card-header>
+                <mat-card-title>Current Results</mat-card-title>
+                <mat-card-subtitle>Latest analysis from AI verification agent</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="status-grid">
+                    <div class="status-item">
+                        <span class="label">Document Status</span>
+                        <mat-chip [class]="'status-' + status.documentStatus.toLowerCase()">
+                            {{ status.documentStatus }}
+                        </mat-chip>
+                    </div>
+                    <div class="status-item">
+                        <span class="label">Risk Level</span>
+                        <span class="value" [class]="getRiskClass(status.riskLevel)">
+                            {{ status.riskLevel }}
+                        </span>
+                    </div>
+                    <div class="status-item">
+                        <span class="label">Confidence</span>
+                        <span class="value" [class]="getConfidenceClass(status.confidenceScore)">
+                            {{ status.confidenceScore | percent:'1.0-2' }}
+                        </span>
+                    </div>
+                    <div class="status-item">
+                        <span class="label">Overall Status</span>
+                        <mat-chip color="primary" selected>
+                            {{ status.overallStatus }}
+                        </mat-chip>
+                    </div>
+                </div>
+
+                <div class="findings-container" *ngIf="status.findings && status.findings.length > 0">
+                    <h3>Analysis Findings</h3>
+                    <ul class="findings-list">
+                        <li *ngFor="let finding of status.findings">
+                            <mat-icon>info</mat-icon>
+                            <span>{{ finding }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <ng-template #noStatus>
+        <mat-card class="status-overview">
+            <mat-card-content>
+                <p>No KYC submissions found. Please submit your documents to get started.</p>
+                <button mat-raised-button color="primary" routerLink="/kyc-submit">
+                    <mat-icon>upload_file</mat-icon>
+                    Submit Documents
+                </button>
+            </mat-card-content>
+        </mat-card>
+    </ng-template>
+
+    <mat-card class="documents-card" *ngIf="kycState.submissions().length > 0">
+        <mat-card-header>
+            <mat-card-title>Submission History</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-progress-bar mode="indeterminate" *ngIf="kycState.loading()"></mat-progress-bar>
+
+            <table mat-table [dataSource]="kycState.submissions()" class="documents-table">
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>ID</th>
+                    <td mat-cell *matCellDef="let doc">
+                        #{{ doc.id?.substring(0, 8) }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>Status</th>
+                    <td mat-cell *matCellDef="let doc">
+                        <mat-chip [class]="'status-' + (doc.verificationStatus || 'pending').toLowerCase()">
+                            {{ doc.verificationStatus }}
+                        </mat-chip>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="risk">
+                    <th mat-header-cell *matHeaderCellDef>Risk</th>
+                    <td mat-cell *matCellDef="let doc">
+                        <span [class]="getRiskClass(doc.riskLevel)">
+                            {{ doc.riskLevel || 'PENDING' }}
+                        </span>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="confidence">
+                    <th mat-header-cell *matHeaderCellDef>Confidence</th>
+                    <td mat-cell *matCellDef="let doc">
+                        <span [class]="getConfidenceClass(doc.confidenceScore)">
+                            {{ (doc.confidenceScore || 0) | percent:'1.0-1' }}
+                        </span>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef>Submitted</th>
+                    <td mat-cell *matCellDef="let doc">
+                        {{ doc.createdAt | date:'short' }}
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </mat-card-content>
+    </mat-card>
+</div>
