@@ -78,9 +78,9 @@ public class DocumentAnalysisService {
                     docType.name(),
                     "UNKNOWN", // Country could be detected or provided
                     ocrText,
-                    gdprService.hashIdentifier(customerId),
+                    gdprService.hashIdentifier(customerId.toString()),
                     legalBasis.name());
-            log.info("this is the extrated data from document ",analysis.toString());
+            log.info("this is the extrated data from document ", analysis.toString());
 
             // 5. Update document with analysis results
             document.setConfidenceScore(analysis.confidenceScores().overall());
@@ -165,7 +165,7 @@ public class DocumentAnalysisService {
      */
     private String storeDocument(MultipartFile file, String customerId) throws Exception {
         String objectName = String.format("%s/%s/%s_%s",
-                customerId,
+                customerId.toString(),
                 LocalDateTime.now().toLocalDate(),
                 UUID.randomUUID(),
                 file.getOriginalFilename());

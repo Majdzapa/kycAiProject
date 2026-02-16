@@ -1,0 +1,59 @@
+.container {
+    padding: 24px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 8px;
+}
+
+.spacer {
+    flex: 1;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.info-card h1 {
+    margin: 0;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.label {
+    color: rgba(0, 0, 0, 0.6);
+    font-weight: 500;
+}
+
+.details-card {
+    margin-top: 24px;
+}
+
+table {
+    width: 100%;
+}
+
+.empty-tab {
+    padding: 24px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.credit {
+    color: #2e7d32;
+}
+
+.debit {
+    color: #d32f2f;
+}

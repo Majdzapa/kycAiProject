@@ -45,11 +45,30 @@
   color: #1976d2;
 }
 
+.menu-header {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px 0;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.menu-header mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.menu-header h3 {
+  padding: 0 !important;
+  margin: 0;
+}
+
 @media (max-width: 768px) {
   .sidenav-container {
     margin-top: 56px;
   }
-  
+
   .content {
     padding: 12px;
   }

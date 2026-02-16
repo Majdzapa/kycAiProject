@@ -33,7 +33,7 @@ public class KycOrchestrationService {
         private final SupervisorAgent supervisorAgent;
         private final DocumentAnalysisService documentService;
         private final RiskAssessmentService riskService;
-        private final RiskScoringService riskScoringService;
+        private final AIPoweredRiskScoringService riskScoringService;
         private final GdprService gdprService;
         private final KycDocumentRepository documentRepository;
         private final ObjectMapper objectMapper;
@@ -248,17 +248,11 @@ public class KycOrchestrationService {
                         // 5. Trigger AI Risk assessment
                         var riskResult = riskService.assessCustomerRisk(customerId, riskData);
 
-                        // 6. Calculate Advanced Risk Score (Quantitative 4-Factor Model)
-                        var advancedRisk = riskScoringService.calculateRiskScore(
-                                        customerId,
-                                        nationality,
-                                        residenceCountry,
-                                        riskData.pepStatus(),
-                                        List.of() // Products would be fetched here
-                        );
+                        // 6. Calculate AI-Powered Risk Score (Baseline + AI + RAG)
+                        var aiRiskResult = riskScoringService.calculateAIPoweredRiskScore(customerId);
 
                         // 7. Persist findings to document metadata
-                        updateDocumentWithRiskFindings(document, riskResult, unusualPatterns, advancedRisk);
+                        updateDocumentWithRiskFindings(document, riskResult, unusualPatterns, aiRiskResult);
 
                         return riskService.getRiskSummary(customerId);
 
@@ -351,7 +345,7 @@ public class KycOrchestrationService {
         private void updateDocumentWithRiskFindings(KycDocument document,
                         Object riskResultObj,
                         List<String> existingPatterns,
-                        RiskScoringService.RiskScoreResult advancedRisk) {
+                        AIPoweredRiskScoringService.AIRiskScoreResult aiRiskResult) {
                 try {
                         // We use Object to avoid circular dependency issues if RiskAgent is not fully
                         // visible
@@ -367,13 +361,19 @@ public class KycOrchestrationService {
                                 allFindings.addAll(existingPatterns);
                         }
 
-                        // Add Advanced Risk Score details
-                        if (advancedRisk != null) {
-                                allFindings.add(String.format("Risk Score: %d (%s)", advancedRisk.totalScore(),
-                                                advancedRisk.riskLevel()));
-                                allFindings.add(String.format("Factors: Cust=%d, Geo=%d, Prod=%d, Tx=%d",
-                                                advancedRisk.customerScore(), advancedRisk.geoScore(),
-                                                advancedRisk.productScore(), advancedRisk.transactionScore()));
+                        // Add AI-Powered Risk Score details
+                        if (aiRiskResult != null) {
+                                allFindings.add(String.format("AI Risk Score: %d (%s)", aiRiskResult.totalScore(),
+                                                aiRiskResult.riskLevel()));
+                                allFindings.add(String.format("Baseline Factors: Cust=%d, Geo=%d, Prod=%d, Tx=%d",
+                                                aiRiskResult.baselineScore().customerScore(),
+                                                aiRiskResult.baselineScore().geoScore(),
+                                                aiRiskResult.baselineScore().productScore(),
+                                                aiRiskResult.baselineScore().transactionScore()));
+
+                                if (aiRiskResult.recommendations() != null) {
+                                        allFindings.addAll(aiRiskResult.recommendations());
+                                }
                         }
 
                         // Add high severity risk factors

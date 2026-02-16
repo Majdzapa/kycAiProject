@@ -42,6 +42,16 @@ export const routes: Routes = [
     canActivate: [authGuard, adminGuard]
   },
   {
+    path: 'admin/customers',
+    loadComponent: () => import('./components/customer-management/customer-management.component').then(m => m.CustomerManagementComponent),
+    canActivate: [authGuard, adminGuard]
+  },
+  {
+    path: 'admin/customers/:id',
+    loadComponent: () => import('./components/customer-detail/customer-detail.component').then(m => m.CustomerDetailComponent),
+    canActivate: [authGuard, adminGuard]
+  },
+  {
     path: 'admin/knowledge-base-upload',
     loadComponent: () => import('./components/knowledge-base-upload/knowledge-base-upload.component').then(m => m.KnowledgeBaseUploadComponent),
     canActivate: [authGuard, adminGuard]
@@ -54,6 +64,11 @@ export const routes: Routes = [
   {
     path: 'admin/transactions',
     loadComponent: () => import('./components/transaction-monitor/transaction-monitor.component').then(m => m.TransactionMonitorComponent),
+    canActivate: [authGuard, adminGuard]
+  },
+  {
+    path: 'admin/audit-logs',
+    loadComponent: () => import('./components/admin/admin.component').then(m => m.AdminComponent), // Reusing Admin component as placeholder
     canActivate: [authGuard, adminGuard]
   },
   {

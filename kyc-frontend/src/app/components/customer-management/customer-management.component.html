@@ -1,0 +1,61 @@
+<div class="container">
+    <div class="header">
+        <h1>Customer Management</h1>
+        <button mat-raised-button color="primary">
+            <mat-icon>add</mat-icon>
+            Register New Customer
+        </button>
+    </div>
+
+    <mat-card class="table-card">
+        <div class="loading-shade" *ngIf="customerService.loading()">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
+
+        <table mat-table [dataSource]="customerService.customers()">
+            <ng-container matColumnDef="fullName">
+                <th mat-header-cell *matHeaderCellDef>Full Name</th>
+                <td mat-cell *matCellDef="let customer">{{customer.fullName}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="nationality">
+                <th mat-header-cell *matHeaderCellDef>Nationality</th>
+                <td mat-cell *matCellDef="let customer">{{customer.nationality}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="residence">
+                <th mat-header-cell *matHeaderCellDef>Residence</th>
+                <td mat-cell *matCellDef="let customer">{{customer.residenceCountry}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="occupation">
+                <th mat-header-cell *matHeaderCellDef>Occupation</th>
+                <td mat-cell *matCellDef="let customer">{{customer.occupation || 'N/A'}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let customer">
+                    <button mat-icon-button color="primary" [routerLink]="['/admin/customers', customer.id]"
+                        matTooltip="View Details">
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" matTooltip="Edit">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="deleteCustomer(customer.id)" matTooltip="Delete">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <div class="empty-state" *ngIf="!customerService.loading() && customerService.customers().length === 0">
+            <mat-icon>people_outline</mat-icon>
+            <p>No customers found.</p>
+        </div>
+    </mat-card>
+</div>

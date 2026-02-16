@@ -23,7 +23,7 @@ public class KycDocument {
     @Column(name = "embedding_id")
     private UUID id;
 
-    @Column(name = "customer_id", nullable = false, length = 255)
+    @Column(name = "customer_id", nullable = false)
     private String customerId;
 
     @Column(name = "document_type", nullable = false, length = 50)
