@@ -80,6 +80,7 @@ public class DocumentAnalysisService {
                     ocrText,
                     gdprService.hashIdentifier(customerId),
                     legalBasis.name());
+            log.info("this is the extrated data from document ",analysis.toString());
 
             // 5. Update document with analysis results
             document.setConfidenceScore(analysis.confidenceScores().overall());
