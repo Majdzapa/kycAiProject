@@ -142,7 +142,7 @@ $$ LANGUAGE plpgsql;
 
 -- Insert default admin user (password: admin123 - change in production!)
 INSERT INTO users (username, email, password_hash, first_name, last_name)
-VALUES ('admin', 'admin@kyc.ai', '$2a$10$GRLdNijSQMUvl/au9ShLOmqnWQmG9tO.bX3V79o/6M6oV8e3/q6ue', 'System', 'Administrator');
+VALUES ('admin', 'admin@kyc.ai', '$2a$10$NF/s.Hs4HzEueBdUPl4IQOK1MtMyK8Ex2IgssY1xfI1ArWlBdrGKa', 'System', 'Administrator');
 
 
 INSERT INTO public.users

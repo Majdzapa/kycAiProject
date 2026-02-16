@@ -32,7 +32,7 @@ public class FinancialTransaction {
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "transaction_type")
     private TransactionType type;
 
     @Column(name = "source_country", length = 2)
