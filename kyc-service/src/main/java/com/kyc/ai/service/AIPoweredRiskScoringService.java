@@ -4,6 +4,7 @@ import com.kyc.ai.agent.RiskAgent;
 import com.kyc.ai.entity.Customer;
 import com.kyc.ai.entity.FinancialTransaction;
 import com.kyc.ai.entity.Product;
+import com.kyc.ai.exception.ResourceNotFoundException;
 import com.kyc.ai.repository.CustomerRepository;
 import com.kyc.ai.repository.FinancialTransactionRepository;
 import com.kyc.ai.repository.ProductRepository;
@@ -97,13 +98,24 @@ public class AIPoweredRiskScoringService {
     /**
      * Build comprehensive customer risk profile
      */
-    private CustomerRiskProfile buildCustomerRiskProfile(String customerId) {
-        Customer customer = customerRepository.findByUserId(UUID.fromString(customerId))
-                .or(() -> customerRepository.findById(customerId))
-                .orElseThrow(() -> new IllegalArgumentException("Customer not found: " + customerId));
+    private CustomerRiskProfile buildCustomerRiskProfile(String identifier) {
+        Customer customer = null;
+
+        // Try to parse as UUID and find by userId first
+        try {
+            java.util.UUID userId = java.util.UUID.fromString(identifier);
+            customer = customerRepository.findByUserId(userId).orElse(null);
+        } catch (IllegalArgumentException e) {
+            // Not a UUID, ignore and try finding by ID
+        }
+
+        // If not found by userId, try finding by customerId
+        if (customer == null) {
+            customer = customerRepository.findById(identifier)
+                    .orElseThrow(() -> new ResourceNotFoundException("Customer not found: " + identifier));
+        }
 
         String actualCustomerId = customer.getId();
-
 
         // Get external screening results
         var pepResult = pepScreeningService.getLatestScreening(actualCustomerId);

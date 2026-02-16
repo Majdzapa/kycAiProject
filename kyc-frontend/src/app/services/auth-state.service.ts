@@ -32,10 +32,10 @@ export class AuthStateService {
     readonly loading = computed(() => this._authState().loading);
     readonly error = computed(() => this._authState().error);
     readonly isAdmin = computed(() =>
-        this._authState().user?.roles?.includes('ROLE_ADMIN') ?? false
+        this._authState().user?.roles?.some(role => role === 'ADMIN' || role === 'ROLE_ADMIN') ?? false
     );
     readonly isOperator = computed(() =>
-        this._authState().user?.roles?.includes('ROLE_OPERATOR') ?? false
+        this._authState().user?.roles?.includes('OPERATOR') ?? false
     );
 
     constructor() {

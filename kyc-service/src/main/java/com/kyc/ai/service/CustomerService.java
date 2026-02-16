@@ -3,6 +3,7 @@ package com.kyc.ai.service;
 import com.kyc.ai.entity.Customer;
 import com.kyc.ai.entity.FinancialTransaction;
 import com.kyc.ai.entity.Product;
+import com.kyc.ai.exception.ResourceNotFoundException;
 import com.kyc.ai.repository.CustomerRepository;
 import com.kyc.ai.repository.FinancialTransactionRepository;
 import com.kyc.ai.repository.ProductRepository;
@@ -32,7 +33,7 @@ public class CustomerService {
     @Transactional(readOnly = true)
     public Customer getCustomerById(String id) {
         return customerRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Customer not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id: " + id));
     }
 
     @Transactional
