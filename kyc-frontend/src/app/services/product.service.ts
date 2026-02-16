@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment';
 export interface Product {
     id?: string;
     name: string;
-    type: string;
+    productType: string;
     baseRiskLevel: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
     riskScore: number;
 }

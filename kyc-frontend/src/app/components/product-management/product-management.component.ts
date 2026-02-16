@@ -33,11 +33,11 @@ export class ProductManagementComponent implements OnInit {
     private snackBar = inject(MatSnackBar);
 
     products = signal<Product[]>([]);
-    displayedColumns = ['name', 'type', 'riskLevel', 'riskScore', 'actions'];
+    displayedColumns = ['name', 'productType', 'riskLevel', 'riskScore', 'actions'];
 
     productForm = this.fb.group({
         name: ['', Validators.required],
-        type: ['SAVINGS_ACCOUNT', Validators.required],
+        productType: ['SAVINGS_ACCOUNT', Validators.required],
         baseRiskLevel: ['LOW', Validators.required],
         riskScore: [null as number | null]
     });
@@ -68,7 +68,7 @@ export class ProductManagementComponent implements OnInit {
             this.productService.createProduct(newProduct).subscribe({
                 next: (created) => {
                     this.products.update(list => [...list, created]);
-                    this.productForm.reset({ type: 'SAVINGS_ACCOUNT', baseRiskLevel: 'LOW' });
+                    this.productForm.reset({ productType: 'SAVINGS_ACCOUNT', baseRiskLevel: 'LOW' });
                     this.snackBar.open('Product created successfully', 'Close', { duration: 3000 });
                 },
                 error: (err) => this.snackBar.open('Failed to create product', 'Close', { duration: 3000 })
