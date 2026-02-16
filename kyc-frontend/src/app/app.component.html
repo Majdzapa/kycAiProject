@@ -60,23 +60,34 @@
 
         <ng-container *ngIf="authState.isAdmin()">
           <mat-divider></mat-divider>
-          <h3 matSubheader>Administration</h3>
+          <div class="menu-header">
+            <mat-icon color="warn">admin_panel_settings</mat-icon>
+            <h3 matSubheader>Administration</h3>
+          </div>
 
           <a mat-list-item routerLink="/admin" routerLinkActive="active">
-            <mat-icon matListItemIcon>admin_panel_settings</mat-icon>
-            <span matListItemTitle>Dashboard</span>
+            <mat-icon matListItemIcon>dashboard</mat-icon>
+            <span matListItemTitle>Admin Dashboard</span>
+          </a>
+          <a mat-list-item routerLink="/admin/customers" routerLinkActive="active">
+            <mat-icon matListItemIcon>people</mat-icon>
+            <span matListItemTitle>Customer Profiles</span>
           </a>
           <a mat-list-item routerLink="/admin/products" routerLinkActive="active">
             <mat-icon matListItemIcon>inventory_2</mat-icon>
-            <span matListItemTitle>Products</span>
+            <span matListItemTitle>Risk Management (Products)</span>
           </a>
           <a mat-list-item routerLink="/admin/transactions" routerLinkActive="active">
             <mat-icon matListItemIcon>receipt_long</mat-icon>
-            <span matListItemTitle>Transactions</span>
+            <span matListItemTitle>Transaction Monitor</span>
           </a>
           <a mat-list-item routerLink="/admin/knowledge-base-upload" routerLinkActive="active">
             <mat-icon matListItemIcon>cloud_upload</mat-icon>
-            <span matListItemTitle>Knowledge Base</span>
+            <span matListItemTitle>Regulatory Knowledge Base</span>
+          </a>
+          <a mat-list-item routerLink="/admin/audit-logs" routerLinkActive="active">
+            <mat-icon matListItemIcon>history_edu</mat-icon>
+            <span matListItemTitle>Audit & Compliance Logs</span>
           </a>
         </ng-container>
 

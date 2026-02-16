@@ -1,0 +1,131 @@
+<div class="container" *ngIf="profile">
+    <div class="header">
+        <button mat-icon-button routerLink="/admin/customers">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h1>{{profile.customer.fullName}}</h1>
+        <span class="spacer"></span>
+        <mat-chip-set>
+            <mat-chip color="primary" selected>ID: {{profile.customer.id?.substring(0,8)}}</mat-chip>
+        </mat-chip-set>
+    </div>
+
+    <div class="profile-grid">
+        <mat-card class="info-card">
+            <mat-card-header>
+                <mat-icon mat-card-avatar>person</mat-icon>
+                <mat-card-title>Personal Information</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="info-item">
+                    <span class="label">Nationality</span>
+                    <span class="value">{{profile.customer.nationality}}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Residence</span>
+                    <span class="value">{{profile.customer.residenceCountry}}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Occupation</span>
+                    <span class="value">{{profile.customer.occupation || 'N/A'}}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Industry</span>
+                    <span class="value">{{profile.customer.industrySector || 'N/A'}}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Created</span>
+                    <span class="value">{{profile.customer.createdAt | date}}</span>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card class="info-card">
+            <mat-card-header>
+                <mat-icon mat-card-avatar>account_balance</mat-icon>
+                <mat-card-title>Financial Profile</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="info-item">
+                    <span class="label">Income Range</span>
+                    <span class="value">{{profile.customer.incomeRange || 'N/A'}}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Source of Wealth</span>
+                    <span class="value">{{profile.customer.sourceOfWealth || 'N/A'}}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Net Worth</span>
+                    <span class="value">{{profile.customer.netWorth | currency}}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Exp. Monthly Volume</span>
+                    <span class="value">{{profile.customer.expectedMonthlyVolume | currency}}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Account Age</span>
+                    <span class="value">{{profile.customer.accountAge}} months</span>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <mat-card class="details-card">
+        <mat-tab-group>
+            <mat-tab label="Products">
+                <table mat-table [dataSource]="profile.products">
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef>Product Name</th>
+                        <td mat-cell *matCellDef="let prod">{{prod.name}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="type">
+                        <th mat-header-cell *matHeaderCellDef>Type</th>
+                        <td mat-cell *matCellDef="let prod">{{prod.productType}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="risk">
+                        <th mat-header-cell *matHeaderCellDef>Base Risk</th>
+                        <td mat-cell *matCellDef="let prod">
+                            <mat-chip-set>
+                                <mat-chip [color]="getRiskColor(prod.baseRiskLevel)"
+                                    selected>{{prod.baseRiskLevel}}</mat-chip>
+                            </mat-chip-set>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="['name', 'type', 'risk']"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ['name', 'type', 'risk'];"></tr>
+                </table>
+                <div class="empty-tab" *ngIf="profile.products.length === 0">
+                    <p>No active products.</p>
+                </div>
+            </mat-tab>
+
+            <mat-tab label="Recent Transactions">
+                <table mat-table [dataSource]="profile.transactions">
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef>Date</th>
+                        <td mat-cell *matCellDef="let tx">{{tx.timestamp | date:'short'}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="type">
+                        <th mat-header-cell *matHeaderCellDef>Type</th>
+                        <td mat-cell *matCellDef="let tx">{{tx.type}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="amount">
+                        <th mat-header-cell *matHeaderCellDef>Amount</th>
+                        <td mat-cell *matCellDef="let tx" [class.credit]="isCredit(tx)" [class.debit]="!isCredit(tx)">
+                            {{tx.amount | currency:tx.currency}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="counterparty">
+                        <th mat-header-cell *matHeaderCellDef>Counterparty</th>
+                        <td mat-cell *matCellDef="let tx">{{tx.counterpartyName}}</td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="['date', 'type', 'amount', 'counterparty']"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ['date', 'type', 'amount', 'counterparty'];"></tr>
+                </table>
+                <div class="empty-tab" *ngIf="profile.transactions.length === 0">
+                    <p>No transaction history.</p>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card>
+</div>

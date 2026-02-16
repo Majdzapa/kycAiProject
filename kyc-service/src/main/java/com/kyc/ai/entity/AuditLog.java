@@ -22,7 +22,7 @@ public class AuditLog {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "customer_id", length = 255)
+    @Column(name = "customer_id")
     private String customerId;
 
     @Column(name = "action", nullable = false, length = 100)

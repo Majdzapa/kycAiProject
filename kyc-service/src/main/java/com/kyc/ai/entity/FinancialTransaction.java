@@ -21,8 +21,9 @@ public class FinancialTransaction {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false)
-    private String customerId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 
     @Column(nullable = false)
     private Double amount;
@@ -47,11 +48,27 @@ public class FinancialTransaction {
     private LocalDateTime timestamp;
 
     public enum TransactionType {
-        DEPOSIT,
-        WITHDRAWAL,
-        TRANSFER,
-        CRYPTO_PURCHASE,
-        CRYPTO_SALE,
-        PAYMENT
+        DEPOSIT(true),
+        WITHDRAWAL(false),
+        TRANSFER(false),
+        CRYPTO_PURCHASE(false),
+        CRYPTO_SALE(true),
+        PAYMENT(false),
+        CASH_DEPOSIT(true),
+        CASH_WITHDRAWAL(false);
+
+        private final boolean credit;
+
+        TransactionType(boolean credit) {
+            this.credit = credit;
+        }
+
+        public boolean isCredit() {
+            return credit;
+        }
+
+        public boolean isDebit() {
+            return !credit;
+        }
     }
 }

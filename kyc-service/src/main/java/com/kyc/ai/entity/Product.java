@@ -25,10 +25,14 @@ public class Product {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
-    @Column(nullable = false, columnDefinition = "product_type")
-    private ProductType type;
+    @Column(nullable = false, name = "product_type", columnDefinition = "product_type")
+    private ProductType productType;
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
@@ -50,7 +54,15 @@ public class Product {
         INVESTMENT_ACCOUNT,
         BROKERAGE,
         CRYPTO_TRADING,
+        CRYPTO_CUSTODY,
+        PRIVATE_BANKING,
+        CORRESPONDENT_BANKING,
+        TRADE_FINANCE,
         INTERNATIONAL_WIRE,
+        FOREIGN_EXCHANGE,
+        PRECIOUS_METALS_ACCOUNT,
+        CASH_MANAGEMENT,
+        BUSINESS_LENDING,
         PREPAID_CARD,
         LOAN,
         CREDIT_CARD

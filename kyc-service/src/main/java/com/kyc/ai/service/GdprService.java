@@ -58,7 +58,7 @@ public class GdprService {
      * Hash sensitive identifiers using SHA-256 (one-way)
      */
     public String hashIdentifier(String identifier) {
-        if (identifier == null || identifier.isEmpty()) {
+        if (identifier == null ) {
             return null;
         }
         try {

@@ -15,7 +15,7 @@ public interface FinancialTransactionRepository extends JpaRepository<FinancialT
 
     List<FinancialTransaction> findByCustomerId(String customerId);
 
-    @Query("SELECT t FROM FinancialTransaction t WHERE t.customerId = :customerId AND t.timestamp >= :since")
+    @Query("SELECT t FROM FinancialTransaction t WHERE t.customer.id = :customerId AND t.timestamp >= :since")
     List<FinancialTransaction> findRecentTransactions(@Param("customerId") String customerId,
             @Param("since") LocalDateTime since);
 }

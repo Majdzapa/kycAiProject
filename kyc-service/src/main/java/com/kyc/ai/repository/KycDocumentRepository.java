@@ -29,7 +29,7 @@ public interface KycDocumentRepository extends JpaRepository<KycDocument, UUID> 
        List<KycDocument> findExpiredDocuments(@Param("now") LocalDateTime now);
 
        @Query("SELECT d FROM KycDocument d WHERE d.customerId = :customerId ORDER BY d.createdAt DESC")
-       Page<KycDocument> findByCustomerIdOrderByCreatedAtDesc(@Param("customerId") String customerId,
+       Page<KycDocument> findByCustomerIdOrderByCreatedAtDesc(@Param("customerId") UUID customerId,
                      Pageable pageable);
 
        @Query("SELECT COUNT(d) FROM KycDocument d WHERE d.verificationStatus = :status")

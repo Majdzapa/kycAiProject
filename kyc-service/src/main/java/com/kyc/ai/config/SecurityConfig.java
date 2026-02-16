@@ -63,7 +63,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/chat/**").authenticated()
 
                         // KYC submission - customers and operators
-                        .requestMatchers(HttpMethod.POST, "/api/v1/kyc/submit").hasAnyRole("CUSTOMER", "OPERATOR")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/kyc/submit")
+                        .hasAnyRole("CUSTOMER", "OPERATOR", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/v1/kyc/status/**")
                         .hasAnyRole("CUSTOMER", "OPERATOR", "ADMIN")
 
