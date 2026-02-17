@@ -27,7 +27,7 @@ import { Customer } from '../../models/customer.model';
       <form [formGroup]="customerForm" class="customer-form">
         <mat-form-field appearance="outline">
           <mat-label>Customer ID (e.g. CUS-123)</mat-label>
-          <input matInput formControlName="id" [readonly]="!!data.customer">
+          <input matInput formControlName="id" [readonly]="isEditing">
           <mat-error *ngIf="customerForm.get('id')?.hasError('required')">ID is required</mat-error>
         </mat-form-field>
 
@@ -108,9 +108,11 @@ export class CustomerDialogComponent {
   public data = inject(MAT_DIALOG_DATA) as { customer?: Customer };
 
   customerForm: FormGroup;
+  isEditing: boolean;
 
   constructor() {
     const customer = this.data.customer;
+    this.isEditing = !!customer;
     this.customerForm = this.fb.group({
       id: [customer?.id || '', Validators.required],
       fullName: [customer?.fullName || '', Validators.required],

@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -33,7 +33,13 @@ export class ProductManagementComponent implements OnInit {
     private snackBar = inject(MatSnackBar);
 
     products = signal<Product[]>([]);
-    displayedColumns = ['name', 'productType', 'riskLevel', 'riskScore', 'actions'];
+
+    // ✅ Expose signal as plain array for mat-table dataSource
+    get productList(): Product[] {
+        return this.products();
+    }
+
+    displayedColumns: string[] = ['name', 'productType', 'riskLevel', 'riskScore', 'actions'];
 
     productForm = this.fb.group({
         name: ['', Validators.required],
@@ -57,7 +63,7 @@ export class ProductManagementComponent implements OnInit {
     loadProducts() {
         this.productService.getAllProducts().subscribe({
             next: (data) => this.products.set(data),
-            error: (err) => this.snackBar.open('Error loading products', 'Close', { duration: 3000 })
+            error: () => this.snackBar.open('Error loading products', 'Close', { duration: 3000 })
         });
     }
 
@@ -71,7 +77,7 @@ export class ProductManagementComponent implements OnInit {
                     this.productForm.reset({ productType: 'SAVINGS_ACCOUNT', baseRiskLevel: 'LOW' });
                     this.snackBar.open('Product created successfully', 'Close', { duration: 3000 });
                 },
-                error: (err) => this.snackBar.open('Failed to create product', 'Close', { duration: 3000 })
+                error: () => this.snackBar.open('Failed to create product', 'Close', { duration: 3000 })
             });
         }
     }
@@ -83,7 +89,7 @@ export class ProductManagementComponent implements OnInit {
                     this.products.update(list => list.filter(p => p.id !== id));
                     this.snackBar.open('Product deleted', 'Close', { duration: 3000 });
                 },
-                error: (err) => this.snackBar.open('Failed to delete product', 'Close', { duration: 3000 })
+                error: () => this.snackBar.open('Failed to delete product', 'Close', { duration: 3000 })
             });
         }
     }
